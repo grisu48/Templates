@@ -1,0 +1,200 @@
+% ============================================================================ %
+% ==== LaTeX Beamer Presentation template ==================================== %
+%                                                                              %
+% Licensed under the "Creative Commons Attribution 3.0 Unported" License       %
+% You may distribute, modify and copy this document wihtout any permissions or %
+% restrictions, as long as the docments stays free.                            %
+%                                                                              %
+% 2018, Felix Niederwanger <felix@feldspaten.org>                              %
+%                                                                              %
+% ============================================================================ %
+
+
+\documentclass[16pt]{beamer}
+
+% ==== Theme for this presentation =========================================== %
+
+% Themes page: http://www.namsu.de/latex/themes/uebersicht_beamer.html
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Freiburg}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+%\usetheme{Keynote}
+%\usetheme{Progressbar}
+
+
+% ==== Inner theme for this presentation ===================================== %
+% This modifys the display of header, footer and sidebar of the slides         %
+
+\useinnertheme{default}
+%\useinnertheme{circles}
+%\useinnertheme{inmargin}
+%\useinnertheme{rectangles}
+%\useinnertheme{rounded}
+
+
+
+% ==== Theme color =========================================================== %
+
+%\usecolortheme{albatross} 
+%\usecolortheme{beaver} 
+%\usecolortheme{beetle} 
+%\usecolortheme{crane} 
+%\usecolortheme{default} 
+%\usecolortheme{dolphin} 
+%\usecolortheme{dove} 
+%\usecolortheme{fly} 
+%\usecolortheme{lily} 
+%\usecolortheme{orchid} 
+%\usecolortheme{rose} 
+%\usecolortheme{seagull} 
+%\usecolortheme{seahorse} 
+%\usecolortheme{sidebartab} 
+%\usecolortheme{structure} 
+\usecolortheme{whale} 
+%\usecolortheme{wolverine} 
+
+
+% ==== Font theme ============================================================ %
+
+\usefonttheme{default}
+%\usefonttheme{professionalfonts}
+%\usefonttheme{serif}
+%\usefonttheme{structurebold}
+%\usefonttheme{structureitalicserif}
+%\usefonttheme{structuresmallcapsserif}
+
+
+% ==== Beamer template ======================================================= %
+
+% Set page number in each page
+\setbeamertemplate{footline}[frame number]
+
+
+
+
+
+% === Packages =============================================================== %
+
+\usepackage[utf8]{inputenc}     % Encoding
+%\usepackage[ngerman]{babel}    % Use for German presentations (Umlaut, ecc.)
+\usepackage{color}
+\usepackage{ulem}
+
+\usepackage{amsmath}            
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}               % for graphics
+\usepackage{listings}           % code listings (used in backup)
+\usepackage{verbatim}           % code segments
+
+
+
+% ==== Custom commands ======================================================= %
+\newcommand{\backupbegin}{
+	\newcounter{finalframe}
+	\setcounter{finalframe}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+	\setcounter{framenumber}{\value{finalframe}}
+}
+
+
+
+% use /backupbegin and /backupend to exclude slides from counting
+
+% ==== DOCUMENT BEGINS HERE ================================================== %
+
+
+\title{Title}
+\subtitle{Muggle technology review}
+\author{Arthur Weasley}
+\institute{Hogwarts School of Witchcraft and Wizardry}
+\date{ \today } 
+
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage{} 
+\end{frame}
+
+
+% Include if needed
+%\begin{frame}{Today's topics}
+%  \setcounter{tocdepth}{1}
+%    \tableofcontents
+%\end{frame}
+
+
+
+\section{Introduction}
+
+\begin{frame}{Fist slide}
+	
+	\textbf{First} slide
+	
+	\begin{block}{Topics}
+		\begin{itemize}
+			\item <1->First
+			\item <1->First
+			\item <2->\textbf{Second}
+			\item <2->\textbf{Second}
+			\item <2->\textit{Third}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion}
+    
+\end{frame}
+
+
+
+% ==== BACKUP SLIDES ========================================================= %
+\appendix
+\backupbegin
+\section*{Backup}
+
+\begin{frame}{Backup slides}
+	Backup slides
+\end{frame}
+
+\backupend
+
+
+\end{document}
+
+
+

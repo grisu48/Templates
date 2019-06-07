@@ -1,0 +1,13 @@
+---
+# 
+
+- hosts: 
+  strategy: 
+  user: 
+  
+  
+  tasks:
+  - name:
+  
+  roles:
+  - { role: name, variable: "value" }

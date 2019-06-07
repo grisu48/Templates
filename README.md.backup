@@ -15,8 +15,4 @@ Then my templates should appear, when you select `New Document` in your file exp
 
 ## License
 
-[WTFPL](http://www.wtfpl.net/about/), see the [LICENSE](LICENSE) file
-
-### TL;DR
-
-You do what you want :-)
+[WTFPL](http://www.wtfpl.net/about/), see [LICENSE](LICENSE)
