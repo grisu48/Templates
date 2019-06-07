@@ -9,7 +9,7 @@ I use this for creating files in [caja](https://github.com/mate-desktop/caja), t
 For that, I create a symbolic link to the `Templates` folder in my home folder.
 
     # Assuming this repo lies in '/home/phoenix/git/Templates'
-    ln -s /home/phoenix/Templates /home/phoenix/git/Templates/Templates
+    ln -s /home/phoenix/git/Templates/Templates /home/phoenix/Templates
 
 Then my templates should appear, when you select `New Document` in your file explorer
 
