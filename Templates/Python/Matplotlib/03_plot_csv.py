@@ -223,7 +223,7 @@ def read_csv(filename) :
 				try :
 					f_val = [float(x) for x in line]
 					ret.append(f_val)
-				except ValueError :
+				except ValueError as e:
 					sys.stderr.write("Line " + str(iLine) + " - " + str(e) + "\n")
 					continue
 	
