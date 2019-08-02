@@ -120,7 +120,7 @@ class CSV :
 			style = self.styles[i % len(self.styles)]
 			label = ""
 			if i < len(self.labels) : label = self.labels[i]
-			ax.plot(csv.x(), csv.extract(i+1), style, label=label)
+			ax.plot(csv.x(), csv.extract(i+1), style, label=label, linewidth=2)
 		
 		## Legend
 		if not self.legend is None : ax.legend(loc=self.legend)
@@ -163,7 +163,7 @@ def read_csv(filename) :
 					elif name == "xlabel" or name == "labelx" :
 						ret.labelx = value
 					elif name == "ylabel" or name == "labely" :
-						ret.labelx = value
+						ret.labely = value
 					elif name == "xlim" or name == "limx" :
 						ret.xlim = [float(x.strip()) for x in value.split(",")]
 					elif name == "ylim" or name == "limy" :
@@ -192,7 +192,7 @@ def read_csv(filename) :
 				try :
 					f_val = [float(x) for x in line]
 					ret.append(f_val)
-				except ValueError :
+				except ValueError as e:
 					sys.stderr.write("Line " + str(iLine) + " - " + str(e) + "\n")
 					continue
 	
