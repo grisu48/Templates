@@ -50,6 +50,7 @@ class CSV :
 		self.legend = None
 		self.figsize= (12,6)
 		self.modifier = None
+		self.linewidth = 1
 
 	def append(self, row) :
 		if len(self._data) == 0 :
@@ -128,7 +129,7 @@ class CSV :
 			x = csv.x()
 			y = csv.extract(i+1)
 			if not self.modifier is None : y = self.modifier(x,y)
-			ax.plot(x, y, style, label=label)
+			ax.plot(x, y, style, label=label, linewidth=self.linewidth)
 		
 		## Legend
 		if not self.legend is None : ax.legend(loc=self.legend)
@@ -150,6 +151,7 @@ def createModifierFunc(modifier) :
 	elif modifier == "y" : return lambda x,y : y
 	elif modifier == "xy" or modifier == "yx" : return lambda x,y : x*y
 	elif modifier == "x^2y" or modifier == "yx^2" : return lambda x,y : (x**2)*y
+	elif modifier == "x^2.7y" or modifier == "yx^2.7" : return lambda x,y : (x**2.7)*y		# Commonly used in CR physics
 	elif modifier == "x^3y" or modifier == "yx^3" : return lambda x,y : (x**3)*y
 	
 	else :
@@ -211,6 +213,8 @@ def read_csv(filename) :
 						ret.labels = [x.strip() for x in value.split(",")]
 					elif name == "modifier" :
 						ret.modifier = createModifierFunc(value)
+					elif name == "linewidth" :
+						ret.linewidth = float(value)
 					else :
 						sys.stderr.write("Line " + str(iLine) + " - Unknown parameter '" + name + "'\n")
 						continue	
