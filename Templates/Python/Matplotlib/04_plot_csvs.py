@@ -200,7 +200,11 @@ def read_csv(filename) :
 	return ret
 
 if __name__ == '__main__':
-	if len(sys.argv) < 2 or sys.argv[1] in ["-h", "--help"] :
+	def check_help(args) :
+		for arg in args :
+			if arg in ["-h", "--help"] : return True
+		return False
+	if len(sys.argv) < 2 or check_help(sys.argv[1:]) :
 		print("Simple matplotlib CSV-plotting utility")
 		print("Usage: " + sys.argv[0] + " [OPTIONS] CSV1 [CSV2,...]")
 		print("  CSV is a csv file")

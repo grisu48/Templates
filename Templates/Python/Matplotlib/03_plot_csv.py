@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-## 2019, Felix Niederwanger
+## 2020, Felix Niederwanger
 ## My matplotlib skeleton code for creating a plot based on CSV
 
 ## This python script reads in a CSV file with an arbitrary number of columns
@@ -235,11 +235,16 @@ def read_csv(filename) :
 	return ret
 
 if __name__ == '__main__':
-	if len(sys.argv) < 2 or sys.argv[1] in ["-h", "--help"] :
+	def check_help(args) :
+		for arg in args :
+			if arg in ["-h", "--help"] : return True
+		return False
+	if len(sys.argv) < 2 or check_help(sys.argv[1:]) :
 		print("Simple matplotlib CSV-plotting utility")
 		print("Usage: " + sys.argv[0] + " CSV [EXPORTFILE]")
 		print("  CSV is a csv file")
 		print("  if EXPORTFILE is determined, I will write the plot to this file")
+		sys.exit(0)
 	## Read data from file
 	csv = read_csv(sys.argv[1])
 	fig,ax = csv.plot()
