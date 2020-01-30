@@ -239,7 +239,7 @@ if __name__ == '__main__':
 		sys.exit(1)
 	fig,ax = csvs[0].createplot()
 	for csv in csvs :
-		print("Plotting ... ")
+		#print("Plotting ... ")
 		csv.plot(fig,ax)
 	
 	## Eventually, save to file
