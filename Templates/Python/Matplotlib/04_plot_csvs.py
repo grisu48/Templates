@@ -21,6 +21,7 @@
 ##           [upper right, center left, best, upper left, right, lower right]
 ##           [lower left, center right, upper center]
 ## :labels = PLOT1,PLOT2,...                    Set labels used by legend
+## :linewidth = 1                               Define line width (i.e. strength)
 
 
 import sys
@@ -47,6 +48,7 @@ class CSV :
 		self.labels = []
 		self.legend = None
 		self.figsize= (12,6)
+		self.linewidth = 2
 
 	def append(self, row) :
 		if len(self._data) == 0 :
@@ -121,7 +123,7 @@ class CSV :
 			style = self.styles[i % len(self.styles)]
 			label = ""
 			if i < len(self.labels) : label = self.labels[i]
-			ax.plot(csv.x(), csv.extract(i+1), style, label=label, linewidth=2)
+			ax.plot(csv.x(), csv.extract(i+1), style, label=label, linewidth=self.linewidth)
 		
 		## Legend
 		if not self.legend is None : ax.legend(loc=self.legend)
@@ -181,6 +183,8 @@ def read_csv(filename) :
 						ret.styles = [x.strip() for x in value.split(",")]
 					elif name == "labels" :
 						ret.labels = [x.strip() for x in value.split(",")]
+					elif name == "linewidth" :
+						ret.linewidth = float(value)
 					else :
 						sys.stderr.write("Line " + str(iLine) + " - Unknown parameter '" + name + "'\n")
 						continue	

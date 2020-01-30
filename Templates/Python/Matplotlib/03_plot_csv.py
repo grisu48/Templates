@@ -24,6 +24,7 @@
 ## :modifier = MODIFIER                         Set modifier func for values
 ##             e.g. xy                          value = x*y
 ##                  x^3*y                       you should get it :-)
+## :linewidth = 1                               Define line width (i.e. strength)
 
 
 import sys
