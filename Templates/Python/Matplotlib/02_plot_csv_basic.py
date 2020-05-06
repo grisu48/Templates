@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 ## 2019, Felix Niederwanger
 ## My matplotlib skeleton code for a simple plot

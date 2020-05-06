@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import numpy as np
@@ -12,7 +12,7 @@ if __name__ == '__main__' :
 	
 	# Check if we have a program argument, otherwise terminate
 	if len(sys.argv) <= 1 :
-		print "Usage: " + sys.argv[0] + " H5FILE\n"
+		print("Usage: " + sys.argv[0] + " H5FILE\n")
 		sys.exit(EXIT_FAILURE)
 	filename = sys.argv[1]
 	
