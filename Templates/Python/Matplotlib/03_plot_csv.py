@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 ## 2020, Felix Niederwanger
-## My matplotlib skeleton code for creating a plot based on CSV
+## matplotlib script for creating a plot based on CSV files
 
 ## This python script reads in a CSV file with an arbitrary number of columns
 ## and creates a matplotlib plot out of it
@@ -21,9 +21,6 @@
 ##           [upper right, center left, best, upper left, right, lower right]
 ##           [lower left, center right, upper center]
 ## :labels = PLOT1,PLOT2,...                    Set labels used by legend
-## :modifier = MODIFIER                         Set modifier func for values
-##             e.g. xy                          value = x*y
-##                  x^3*y                       you should get it :-)
 ## :linewidth = 1                               Define line width (i.e. strength)
 
 
@@ -51,8 +48,7 @@ class CSV :
 		self.labels = []
 		self.legend = None
 		self.figsize= (12,6)
-		self.modifier = None
-		self.linewidth = 1
+		self.linewidth = 2
 
 	def append(self, row) :
 		if len(self._data) == 0 :
@@ -115,60 +111,40 @@ class CSV :
 		
 		return (fig,ax)
 		
-	def plot(self) :
+	def plot(self, fig,ax) :
 		'''
 		Create plot instance. You still need to call plt.plot() or fig.savefig()
 		Returns the created (fig, ax) instance
 		'''
 		if len(self._data) == 0 : raise ValueError("Empty data")
-		fig,ax = self.createplot()
 		
 		nCol = len(self._data[0])-1
 		for i in range(nCol) :
 			style = self.styles[i % len(self.styles)]
 			label = ""
 			if i < len(self.labels) : label = self.labels[i]
-			x = csv.x()
-			y = csv.extract(i+1)
-			if not self.modifier is None : y = self.modifier(x,y)
-			ax.plot(x, y, style, label=label, linewidth=self.linewidth)
+			ax.plot(csv.x(), csv.extract(i+1), style, label=label, linewidth=self.linewidth)
 		
 		## Legend
 		if not self.legend is None : ax.legend(loc=self.legend)
 		
 		return fig,ax
+		
 
-def createModifierFunc(modifier) :
-	'''
-	Create modifier function (lambda x,y : value)
-	'''
-	if modifier is None : return lambda x,y : x
-	modifier = str(modifier).strip().lower()
-	if len(modifier) == 0 : return lambda x,y : x
-	func = lambda x,y : x
-	# TODO: Build parse tree
-	
-	# For now, we limit ourselves to some pretty simple cases (hardcoded)
-	if modifier == "x" : return lambda x,y : x
-	elif modifier == "y" : return lambda x,y : y
-	elif modifier == "xy" or modifier == "yx" : return lambda x,y : x*y
-	elif modifier == "x^2y" or modifier == "yx^2" : return lambda x,y : (x**2)*y
-	elif modifier == "x^2.7y" or modifier == "yx^2.7" : return lambda x,y : (x**2.7)*y		# Commonly used in CR physics
-	elif modifier == "x^3y" or modifier == "yx^3" : return lambda x,y : (x**3)*y
-	
-	else :
-		raise ValueError("Unsupported modifier function (sorry!)")
-	
-	return func
-			
-
-def read_csv(filename) :
+def read_csv(filename,defaultScaling = 0) :
 	ret = CSV()
+	if defaultScaling == 1 :
+		ret.logx = False
+		ret.logy = True
+	elif defaultScaling == 2 :
+		ret.logx = True
+		ret.logy = True
 	
 	# Split by regex
 	regex = re.compile(":|;|\t| |,")
 	
 	def strbool(text,default=False) :
+		text = text.strip().lower()
 		TRUEVALUES = ["1","true","on","yes"]
 		FALSEVALUES = ["0","false","off","no"]
 		if text in TRUEVALUES : return True
@@ -213,8 +189,6 @@ def read_csv(filename) :
 						ret.styles = [x.strip() for x in value.split(",")]
 					elif name == "labels" :
 						ret.labels = [x.strip() for x in value.split(",")]
-					elif name == "modifier" :
-						ret.modifier = createModifierFunc(value)
 					elif name == "linewidth" :
 						ret.linewidth = float(value)
 					else :
@@ -242,18 +216,49 @@ if __name__ == '__main__':
 		return False
 	if len(sys.argv) < 2 or check_help(sys.argv[1:]) :
 		print("Simple matplotlib CSV-plotting utility")
-		print("Usage: " + sys.argv[0] + " CSV [EXPORTFILE]")
+		print("Usage: " + sys.argv[0] + " [OPTIONS] CSV1 [CSV2,...]")
 		print("  CSV is a csv file")
-		print("  if EXPORTFILE is determined, I will write the plot to this file")
-		sys.exit(0)
-	## Read data from file
-	csv = read_csv(sys.argv[1])
-	fig,ax = csv.plot()
+		print("OPTIONS")
+		print("  -o EXPORTFILE            Export plot to EXPORTFILE (png,bmp,pdf,jpg)")
+		print("  --log                   Create log plot by default")
+		print("  --loglog,--log-log      Create log-log plot by default")
+		
+	
+	files = []
+	outFile = None
+	scaling = 0   # 0 = lin, 1 = log, 2 = loglog, if not defined by files
+	i = 1
+	while i < len(sys.argv) :
+		try :
+			arg = sys.argv[i]
+			if len(arg) == 0 : continue
+			if arg[0] == '-' :		# Argument?
+				if arg == "-o" :
+					i+=1
+					outFile = sys.argv[i]
+				elif arg == "--log" :
+					scaling = 1
+				elif arg == "--loglog" or arg == "--log-log" :
+					scaling = 2
+				else : raise ValueError("Unknown argument")
+			else : files.append(arg)
+		finally :
+			i+=1
+	
+	## Read data from files
+	
+	csvs = [read_csv(x, scaling) for x in files]
+	if len(csvs) == 0 :
+		print("Error: No files loaded")
+		sys.exit(1)
+	fig,ax = csvs[0].createplot()
+	for csv in csvs :
+		#print("Plotting ... ")
+		csv.plot(fig,ax)
 	
 	## Eventually, save to file
-	if len(sys.argv) > 2 :
-		filename = sys.argv[2]
-		fig.savefig(filename, dpi=100,papertype="A4")
-		print("Written to " + filename)
+	if not outFile is None :
+		fig.savefig(outFile, dpi=100,papertype="A4")
+		print("Written to " + outFile)
 	else :
 		plt.show()
