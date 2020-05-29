@@ -10,7 +10,7 @@
 # Summary: [...]
 # Maintainer: Felix Niederwanger <felix.niederwanger@suse.de>
 
-use base 'consoletest';
+use base 'x11test';
 use strict;
 use warnings;
 use testapi;
@@ -18,13 +18,17 @@ use utils;
 use version_utils;
 
 sub run {
-    # Preparation
-    my $self = shift;
-    $self->select_serial_terminal;
-    # install requirements
-    zypper_call 'in [PACKAGEs]';
-    assert_script_run 'echo Hello World';
-    validate_script_output "echo Hello World", sub { m/Hello World/ };
+	select_console 'root-console';
+	zypper_call('in tigervnc xorg-x11-Xvnc');
+	# ...
+    select_console 'x11';
+    ensure_unlocked_desktop;
+    ensure_installed 'steam';
+    x11_start_program('xterm');
+    turn_off_gnome_screensaver;
+    script_run 'my-program', 0;
+    wait_still_screen(3);
+    script_run 'exit', 0;
 }
 
 1;
