@@ -258,7 +258,7 @@ if __name__ == '__main__':
 	
 	## Eventually, save to file
 	if not outFile is None :
-		fig.savefig(outFile, dpi=100,papertype="A4")
+		fig.savefig(outFile, dpi=100)
 		print("Written to " + outFile)
 	else :
 		plt.show()

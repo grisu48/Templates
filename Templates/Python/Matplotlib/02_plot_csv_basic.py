@@ -110,5 +110,5 @@ if __name__ == '__main__':
 	ax.plot(csv.x(), csv.y1(), "c-")
 	
 	## Eventually, save to file
-	#fig.savefig("file.png", dpi=100,papertype="A4",format=format)
+	#fig.savefig("file.png", dpi=100,format=format)
 	plt.show()
