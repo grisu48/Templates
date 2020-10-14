@@ -42,5 +42,5 @@ if __name__ == '__main__':
 	ax.plot(x, y1, "c-", x, y2, "g-")
 	
 	## Eventually, save to file
-	#fig.savefig("file.png", dpi=100,papertype="A4",format=format)
+	#fig.savefig("file.png", dpi=100,format=format)
 	plt.show()
