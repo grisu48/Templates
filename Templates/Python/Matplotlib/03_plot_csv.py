@@ -191,6 +191,14 @@ def read_csv(filename,defaultScaling = 0) :
 						ret.labels = [x.strip() for x in value.split(",")]
 					elif name == "linewidth" :
 						ret.linewidth = float(value)
+					elif name == "fontsize" :
+						fontsize = int(value)
+						plt.rc('font', size=fontsize)        # controls default text size
+						plt.rc('axes', titlesize=fontsize)   # fontsize of the title
+						plt.rc('axes', labelsize=fontsize)   # fontsize of the x and y labels
+						plt.rc('xtick', labelsize=fontsize)  # fontsize of the x tick labels
+						plt.rc('ytick', labelsize=fontsize)  # fontsize of the y tick labels
+						plt.rc('legend', fontsize=fontsize)  # fontsize of the legend
 					else :
 						sys.stderr.write("Line " + str(iLine) + " - Unknown parameter '" + name + "'\n")
 						continue	
