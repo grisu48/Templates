@@ -22,6 +22,10 @@
 ##           [lower left, center right, upper center]
 ## :labels = PLOT1,PLOT2,...                    Set labels used by legend
 ## :linewidth = 1                               Define line width (i.e. strength)
+## :xmajorticks = 10                            Set major ticks on x axis manually
+## :xminorticks = 1                             Set major ticks on x axis manually
+## :ymajorticks = 10                            Set major ticks on y axis manually
+## :yminorticks = 1                             Set major ticks on y axis manually
 
 
 import sys
@@ -49,6 +53,10 @@ class CSV :
 		self.legend = None
 		self.figsize= (12,6)
 		self.linewidth = 2
+		self.xMajorTicks = None
+		self.xMinorTicks = None
+		self.yMajorTicks = None
+		self.yMinorTicks = None
 
 	def append(self, row) :
 		if len(self._data) == 0 :
@@ -99,6 +107,10 @@ class CSV :
 		#delta = float(extend[1] - extend[0]) / float(ticks)
 		#x_ticks = [extend[0]+x*delta for x in range(ticks+1) ]
 		#ax.get_xaxis().set_ticks(x_ticks)
+		if self.xMajorTicks is not None : ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(self.xMajorTicks))
+		if self.xMinorTicks is not None : ax.xaxis.set_minor_locator(matplotlib.ticker.MultipleLocator(self.xMinorTicks))
+		if self.yMajorTicks is not None : ax.yaxis.set_major_locator(matplotlib.ticker.MultipleLocator(self.yMajorTicks))
+		if self.yMinorTicks is not None : ax.yaxis.set_minor_locator(matplotlib.ticker.MultipleLocator(self.yMinorTicks))
 	
 		## Set axis limits
 		if not self.xlim is None : ax.set_xlim(self.xlim[0], self.xlim[1])
@@ -199,6 +211,14 @@ def read_csv(filename,defaultScaling = 0) :
 						plt.rc('xtick', labelsize=fontsize)  # fontsize of the x tick labels
 						plt.rc('ytick', labelsize=fontsize)  # fontsize of the y tick labels
 						plt.rc('legend', fontsize=fontsize)  # fontsize of the legend
+					elif name == "xmajorticks" :
+						ret.xMajorTicks = float(value)
+					elif name == "xminorticks" :
+						ret.xMinorTicks = float(value)
+					elif name == "ymajorticks" :
+						ret.yMajorTicks = float(value)
+					elif name == "yminorticks" :
+						ret.yMinorTicks = float(value)
 					else :
 						sys.stderr.write("Line " + str(iLine) + " - Unknown parameter '" + name + "'\n")
 						continue	
