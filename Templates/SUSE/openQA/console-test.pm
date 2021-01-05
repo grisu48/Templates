@@ -1,6 +1,6 @@
 # SUSE's openQA tests
 #
-# Copyright © 2020 SUSE LLC
+# Copyright © 2021 SUSE LLC
 #
 # Copying and distribution of this file, with or without modification,
 # are permitted in any medium without royalty provided the copyright
@@ -20,6 +20,7 @@ use version_utils;
 sub run {
     # Preparation
     my $self = shift;
+    #select_console 'root-console';
     $self->select_serial_terminal;
     # install requirements
     zypper_call 'in [PACKAGEs]';
