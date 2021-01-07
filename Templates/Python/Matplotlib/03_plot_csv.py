@@ -107,10 +107,13 @@ class CSV :
 		#delta = float(extend[1] - extend[0]) / float(ticks)
 		#x_ticks = [extend[0]+x*delta for x in range(ticks+1) ]
 		#ax.get_xaxis().set_ticks(x_ticks)
-		if self.xMajorTicks is not None : ax.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(self.xMajorTicks))
-		if self.xMinorTicks is not None : ax.xaxis.set_minor_locator(matplotlib.ticker.MultipleLocator(self.xMinorTicks))
-		if self.yMajorTicks is not None : ax.yaxis.set_major_locator(matplotlib.ticker.MultipleLocator(self.yMajorTicks))
-		if self.yMinorTicks is not None : ax.yaxis.set_minor_locator(matplotlib.ticker.MultipleLocator(self.yMinorTicks))
+		def get_ticker(ticks, log=False) :
+			if log : return matplotlib.ticker.LogLocator(base=10, numticks=ticks)
+			return matplotlib.ticker.MultipleLocator(ticks)
+		if self.xMajorTicks is not None : ax.xaxis.set_major_locator(get_ticker(self.xMajorTicks, self.logx))
+		if self.xMinorTicks is not None : ax.xaxis.set_minor_locator(get_ticker(self.xMinorTicks, self.logx))
+		if self.yMajorTicks is not None : ax.yaxis.set_major_locator(get_ticker(self.yMajorTicks, self.logy))
+		if self.yMinorTicks is not None : ax.yaxis.set_minor_locator(get_ticker(self.yMinorTicks, self.logy))
 	
 		## Set axis limits
 		if not self.xlim is None : ax.set_xlim(self.xlim[0], self.xlim[1])
