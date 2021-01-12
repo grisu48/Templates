@@ -35,6 +35,34 @@ import matplotlib.pyplot as plt
 import numpy as np
 import re
 
+def split_esc(text, sep) :
+	ESCAPE="\"'"
+	ret = []
+	val = ""
+	esc = None
+	for c in text :
+		if esc is None :
+			if c in ESCAPE :
+				esc = c
+				continue
+		else :
+			if c == esc :
+				esc = None
+				continue
+			else :
+				val += c
+				continue
+		
+		if c == sep :
+			ret.append(val)
+			val = ""
+		else :
+			val += c
+	if val != "" : ret.append(val)
+	print(ret)
+	return ret
+			
+
 class CSV :
 	'''
 	CSV container class
@@ -203,7 +231,7 @@ def read_csv(filename,defaultScaling = 0) :
 					elif name == "styles" :
 						ret.styles = [x.strip() for x in value.split(",")]
 					elif name == "labels" :
-						ret.labels = [x.strip() for x in value.split(",")]
+						ret.labels = [x.strip() for x in split_esc(value, ",")]
 					elif name == "linewidth" :
 						ret.linewidth = float(value)
 					elif name == "fontsize" :
