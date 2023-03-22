@@ -1,6 +1,6 @@
 # SUSE's openQA tests
 #
-# Copyright © 2021 SUSE LLC
+# Copyright © 2023 SUSE LLC
 #
 # Copying and distribution of this file, with or without modification,
 # are permitted in any medium without royalty provided the copyright
@@ -15,6 +15,7 @@ use strict;
 use warnings;
 use testapi;
 use utils;
+use serial_terminal 'select_serial_terminal';
 #use version_utils qw(is_sle is_opensuse is_leap is_tumbleweed);
 #use registration qw(cleanup_registration register_product add_suseconnect_product get_addon_fullname remove_suseconnect_product);
 
@@ -22,7 +23,7 @@ sub run {
     # Preparation
     my $self = shift; # $_[0];
     #select_console 'root-console';
-    $self->select_serial_terminal;
+    select_serial_terminal;
     zypper_call 'in [PACKAGEs]';
     # Run some tests
     assert_script_run 'echo Hello World';
